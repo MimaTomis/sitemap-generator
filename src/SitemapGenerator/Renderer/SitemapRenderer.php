@@ -2,7 +2,7 @@
 namespace SitemapGenerator\Renderer;
 
 use SitemapGenerator\Extractor\DataExtractorInterface;
-use SitemapGenerator\Extractor\SitemapItem;
+use SitemapGenerator\Entity\SitemapItem;
 
 class SitemapRenderer implements SitemapRendererInterface
 {
@@ -36,7 +36,10 @@ class SitemapRenderer implements SitemapRendererInterface
 	{
 		$xml = '<url>';
 		$xml .= sprintf('<loc>%s</loc>', $item->getLocation());
-		$xml .= sprintf('<lastmod>%s</lastmod>', $item->getLastModified()->format('Y-m-d'));
+
+		if ($lastModified = $item->getLastModified()) {
+			$xml .= sprintf('<lastmod>%s</lastmod>', $lastModified->format('Y-m-d'));
+		}
 
 		if ($changeFrequency = $item->getChangeFrequency()) {
 			$xml .= sprintf('<changefreq>%s</changefreq>', $changeFrequency);

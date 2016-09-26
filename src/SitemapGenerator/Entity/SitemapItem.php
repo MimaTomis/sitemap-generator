@@ -1,5 +1,5 @@
 <?php
-namespace SitemapGenerator\Extractor;
+namespace SitemapGenerator\Entity;
 
 class SitemapItem
 {
@@ -30,9 +30,9 @@ class SitemapItem
 
 	public function __construct(
 		$location,
-		\DateTime $lastModified,
-		$changeFrequency = self::FREQUENCY_MONTHLY,
-		$priority = 0.8
+		\DateTime $lastModified = null,
+		$changeFrequency = null,
+		$priority = null
 	)
 	{
 
@@ -43,6 +43,9 @@ class SitemapItem
 	}
 
 	/**
+	 * URL of the page.
+	 * Read that document: http://www.sitemaps.org/protocol.html#locdef
+	 *
 	 * @return string
 	 */
 	public function getLocation()
@@ -51,6 +54,9 @@ class SitemapItem
 	}
 
 	/**
+	 * The date of last modification of the file.
+	 * Read that document: http://www.sitemaps.org/protocol.html#lastmoddef
+	 *
 	 * @return \DateTime
 	 */
 	public function getLastModified()
@@ -59,6 +65,9 @@ class SitemapItem
 	}
 
 	/**
+	 * How frequently the page is likely to change.
+	 * Read that document: http://www.sitemaps.org/protocol.html#changefreqdef
+	 *
 	 * @return string
 	 */
 	public function getChangeFrequency()
@@ -67,6 +76,9 @@ class SitemapItem
 	}
 
 	/**
+	 * The priority of this URL relative to other URLs on your site.
+	 * Read that document: http://www.sitemaps.org/protocol.html#prioritydef
+	 *
 	 * @return float
 	 */
 	public function getPriority()

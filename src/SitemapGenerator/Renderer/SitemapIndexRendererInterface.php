@@ -1,15 +1,17 @@
 <?php
 namespace SitemapGenerator\Renderer;
 
+use SitemapGenerator\Entity\SitemapItem;
+
 interface SitemapIndexRendererInterface
 {
 	/**
-	 * Render and return sitemap index by given list of sitemap files
+	 * Render and return sitemap index by given list of sitemap items
 	 * Read the document: http://www.sitemaps.org/protocol.html#sitemapIndex_sitemapindex
 	 *
-	 * @param array $fileUrls
+	 * @param SitemapItem[] $items
 	 *
 	 * @return string
 	 */
-	public function render(array $fileUrls);
+	public function render(array $items);
 }

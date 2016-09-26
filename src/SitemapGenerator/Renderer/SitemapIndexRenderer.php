@@ -1,23 +1,24 @@
 <?php
 namespace SitemapGenerator\Renderer;
 
+use SitemapGenerator\Entity\SitemapItem;
+
 class SitemapIndexRenderer implements SitemapIndexRendererInterface
 {
 	/**
-	 * Render and return sitemap index by given list of sitemap files
+	 * Render and return sitemap index by given list of sitemap items
 	 * Read the document: http://www.sitemaps.org/protocol.html#sitemapIndex_sitemapindex
 	 *
-	 * @param array $fileUrls
+	 * @param SitemapItem[] $items
 	 *
 	 * @return string
 	 */
-	public function render(array $fileUrls)
+	public function render(array $items)
 	{
 		$xml = '';
-		$date = (new \DateTime())->format(\DateTime::ISO8601);
 
-		foreach ($fileUrls as $file) {
-			$xml .= $this->renderSitemapTag($file, $date);
+		foreach ($items as $item) {
+			$xml .= $this->renderSitemapTag($item);
 		}
 
 		return $this->renderSitemapIndexTag($xml);
@@ -26,17 +27,19 @@ class SitemapIndexRenderer implements SitemapIndexRendererInterface
 	/**
 	 * Render sitemap tag by sitemap file URL and date modified.
 	 *
-	 * @param string $fileUrl
-	 * @param string $lastModified
+	 * @param SitemapItem $item
 	 *
 	 * @return string
 	 */
-	protected function renderSitemapTag($fileUrl, $lastModified)
+	protected function renderSitemapTag(SitemapItem $item)
 	{
 		$xml = '<sitemap>';
 
-		$xml .= sprintf('<loc>%s</loc>', $fileUrl);
-		$xml .= sprintf('<lastmod>%s</lastmod>', $lastModified);
+		$xml .= sprintf('<loc>%s</loc>', $item->getLocation());
+
+		if ($lastModified = $item->getLastModified()) {
+			$xml .= sprintf('<lastmod>%s</lastmod>', $lastModified->format(\DateTime::ISO8601));
+		}
 
    		return $xml .= '</sitemap>';
 	}

@@ -1,7 +1,7 @@
 <?php
-namespace SitemapGenerator\Tests\Extractor;
+namespace SitemapGenerator\Tests\Entity;
 
-use SitemapGenerator\Extractor\SitemapItem;
+use SitemapGenerator\Entity\SitemapItem;
 
 class SitemapItemTest extends \PHPUnit_Framework_TestCase
 {

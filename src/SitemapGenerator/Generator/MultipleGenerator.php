@@ -1,6 +1,7 @@
 <?php
 namespace SitemapGenerator\Generator;
 
+use SitemapGenerator\Entity\SitemapItem;
 use SitemapGenerator\Extractor\DataExtractorInterface;
 use SitemapGenerator\Extractor\PartialDataExtractor;
 use SitemapGenerator\Renderer\SitemapIndexRendererInterface;
@@ -28,6 +29,10 @@ class MultipleGenerator implements GeneratorInterface
 	 * @var string
 	 */
 	protected $urlToSitemapDirectory;
+	/**
+	 * @var \DateTime
+	 */
+	protected $lastModified;
 
 	public function __construct(WriterInterface $writer, GeneratorInterface $generator, SitemapIndexRendererInterface $indexRenderer)
 	{
@@ -57,6 +62,16 @@ class MultipleGenerator implements GeneratorInterface
 	}
 
 	/**
+	 * Set date of last modified sitemap files
+	 *
+	 * @param \DateTime $lastModified
+	 */
+	public function setLastModifiedDate(\DateTime $lastModified)
+	{
+		$this->lastModified = $lastModified;
+	}
+
+	/**
 	 * Generate sitemap by file name and data extractor.
 	 * Return path to generated file.
 	 *
@@ -67,40 +82,33 @@ class MultipleGenerator implements GeneratorInterface
 	 */
 	public function generate($fileName, DataExtractorInterface $extractor)
 	{
-		$fileUrls = [];
+		$items = [];
+		$fileIndex = 1;
+
+		$date = $this->lastModified ?: new \DateTime();
 		$partialExtractor = new PartialDataExtractor($extractor, $this->limitOfSitemapRecords);
 
 		while(!$partialExtractor->isEndOfParts()) {
-			$nameOfSitemapFile = $this->generateSitemapFile($fileName, $extractor);
-			$fileNames[] = $this->urlToSitemapDirectory.$nameOfSitemapFile;
+			$nameOfSitemapFile = $this->generateSitemapFile($fileIndex ++, $fileName, $partialExtractor);
+			$nameOfSitemapFile = $this->generateUrlToSitemapFile($nameOfSitemapFile);
+
+			$items[] = new SitemapItem($nameOfSitemapFile, $date);
 		}
 
-		return $this->renderAndWriteSitemapIndex($fileName, $fileUrls);
-	}
-
-	/**
-	 * Return file extension
-	 *
-	 * @param string $fileName
-	 *
-	 * @return string
-	 */
-	protected function getFileExtension($fileName)
-	{
-		return mb_substr($fileName, mb_strrpos($fileName, '.'));
+		return $this->renderAndWriteSitemapIndex($fileName, $items);
 	}
 
 	/**
 	 * Render and write sitemap index file
 	 *
 	 * @param string $fileName
-	 * @param array $fileUrls
+	 * @param SitemapItem[] $items
 	 *
 	 * @return string
 	 */
-	protected function renderAndWriteSitemapIndex($fileName, array $fileUrls)
+	protected function renderAndWriteSitemapIndex($fileName, array $items)
 	{
-		$sitemapIndex = $this->indexRenderer->render($fileUrls);
+		$sitemapIndex = $this->indexRenderer->render($items);
 
 		return $this->writer->write($fileName, $sitemapIndex);
 	}
@@ -108,18 +116,29 @@ class MultipleGenerator implements GeneratorInterface
 	/**
 	 * Generate sitemap file and return his name
 	 *
+	 * @param int $fileIndex
 	 * @param string $fileName
 	 * @param DataExtractorInterface $extractor
 	 *
 	 * @return string
 	 */
-	protected function generateSitemapFile($fileName, DataExtractorInterface $extractor)
+	protected function generateSitemapFile($fileIndex, $fileName, DataExtractorInterface $extractor)
 	{
-		static $fileIndex = 1;
-
-		$nameOfSitemapFile = preg_replace('/(.*)(\.[\w\d]+)$/', sprintf('$1.%d.$2', $fileIndex), $fileName);
+		$nameOfSitemapFile = preg_replace('/(.*)(\.[\w\d]+)$/', sprintf('$1.%d$2', $fileIndex), $fileName);
 		$this->generator->generate($nameOfSitemapFile, $extractor);
 
 		return $nameOfSitemapFile;
+	}
+
+	/**
+	 * Generate url to sitemap file
+	 *
+	 * @param string $nameOfSitemapFile
+	 *
+	 * @return string
+	 */
+	protected function generateUrlToSitemapFile($nameOfSitemapFile)
+	{
+		return rtrim($this->urlToSitemapDirectory,'/').'/'.ltrim($nameOfSitemapFile, '/');
 	}
 }

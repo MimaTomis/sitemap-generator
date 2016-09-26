@@ -1,6 +1,8 @@
 <?php
 namespace SitemapGenerator\Extractor;
 
+use SitemapGenerator\Entity\SitemapItem;
+
 class CompositeDataExtractor implements DataExtractorInterface
 {
     /**

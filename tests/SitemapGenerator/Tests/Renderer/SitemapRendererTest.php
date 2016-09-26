@@ -2,7 +2,7 @@
 namespace SitemapGenerator\Tests\Renderer;
 
 use SitemapGenerator\Extractor\DataExtractorInterface;
-use SitemapGenerator\Extractor\SitemapItem;
+use SitemapGenerator\Entity\SitemapItem;
 use SitemapGenerator\Renderer\SitemapRenderer;
 
 class SitemapRendererTest extends \PHPUnit_Framework_TestCase
@@ -49,7 +49,7 @@ class SitemapRendererTest extends \PHPUnit_Framework_TestCase
                 [
                     new SitemapItem('http://test.com/gt', new \DateTime('2016-09-03'), SitemapItem::FREQUENCY_EARLY),
                     new SitemapItem('http://test.com/vfv', new \DateTime('2016-09-04'), SitemapItem::FREQUENCY_HOURLY, 0.5),
-                    new SitemapItem('http://test.com/ghj', new \DateTime('2016-09-05'))
+                    new SitemapItem('http://test.com/ghj')
                 ]
             ],
             [

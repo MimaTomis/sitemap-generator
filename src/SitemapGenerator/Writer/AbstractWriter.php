@@ -31,7 +31,7 @@ abstract class AbstractWriter implements WriterInterface
 			throw new NotExistsException($dirPath, 'Target directory is not exists');
 		}
 
-		if ($this->checkDirWritable($dirPath)) {
+		if (!$this->checkDirWritable($dirPath)) {
 			throw new NotWritableException($dirPath, 'Target directory exists, but not writable');
 		}
 
@@ -51,8 +51,8 @@ abstract class AbstractWriter implements WriterInterface
 	 */
 	final public function write($fileName, $content)
 	{
-		$filePath = rtrim($this->dirPath, DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
-		$filePath .= ltrim(DIRECTORY_SEPARATOR, $fileName);
+		$filePath = rtrim($this->dirPath, DIRECTORY_SEPARATOR);
+		$filePath .= DIRECTORY_SEPARATOR.ltrim($fileName, DIRECTORY_SEPARATOR);
 
 		if (!$this->checkFileWritable($filePath)) {
 			throw new NotWritableException($filePath, 'Target file exists but not writable');
@@ -75,7 +75,7 @@ abstract class AbstractWriter implements WriterInterface
 	 *
 	 * @return boolean
 	 */
-	abstract public function writeContent($filePath, $content);
+	abstract protected function writeContent($filePath, $content);
 
 	/**
 	 * Check if directory exists

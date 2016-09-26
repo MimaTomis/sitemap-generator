@@ -11,7 +11,7 @@ class SimpleWriter extends AbstractWriter
 	 *
 	 * @return boolean
 	 */
-	public function writeContent($filePath, $content)
+	protected function writeContent($filePath, $content)
 	{
 		return @file_put_contents($filePath, $content);
 	}
