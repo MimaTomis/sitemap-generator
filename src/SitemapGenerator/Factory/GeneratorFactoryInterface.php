@@ -3,7 +3,7 @@ namespace SitemapGenerator\Factory;
 
 use SitemapGenerator\Generator\GeneratorInterface;
 
-interface FactoryInterface
+interface GeneratorFactoryInterface
 {
     /**
      * @param string $directoryToSaveSitemap

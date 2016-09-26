@@ -31,7 +31,7 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(NotExistsException::class);
 
-        $this->writer->setDirPath('./abcdef');
+        $this->writer->setDirectoryToSaveSitemap('./abcdef');
     }
 
     public function testSetDirPathNotWritableDirectory()
@@ -39,12 +39,12 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(NotWritableException::class);
 
         chmod(TEMP_DIR, 0555);
-        $this->writer->setDirPath(TEMP_DIR);
+        $this->writer->setDirectoryToSaveSitemap(TEMP_DIR);
     }
 
     public function testSetDirPathExistsAndWritable()
     {
-        $this->writer->setDirPath(TEMP_DIR);
+        $this->writer->setDirectoryToSaveSitemap(TEMP_DIR);
     }
 
     public function testWriteNotExistsFile()
@@ -52,7 +52,7 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
         // because is abstract class, and him not have implementation for writeContent method
         $this->setExpectedException(FileWriteException::class);
 
-        $this->writer->setDirPath(TEMP_DIR);
+        $this->writer->setDirectoryToSaveSitemap(TEMP_DIR);
         $this->writer->write('file1.xml', 'content');
     }
 
@@ -61,7 +61,7 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(NotWritableException::class);
 
         chmod(TEMP_DIR.'/empty.xml', 0555);
-        $this->writer->setDirPath(TEMP_DIR);
+        $this->writer->setDirectoryToSaveSitemap(TEMP_DIR);
         $this->writer->write('empty.xml', 'content');
     }
 
@@ -70,7 +70,7 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
         // because is abstract class, and him not have implementation for writeContent method
         $this->setExpectedException(FileWriteException::class);
 
-        $this->writer->setDirPath(TEMP_DIR);
+        $this->writer->setDirectoryToSaveSitemap(TEMP_DIR);
         $this->writer->write('empty.xml', 'content');
     }
 }

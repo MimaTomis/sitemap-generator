@@ -10,32 +10,32 @@ abstract class AbstractWriter implements WriterInterface
 	/**
 	 * @var string
 	 */
-	private $dirPath;
+	protected $directoryToSaveSitemap;
 
-	public function __construct($dirPath)
+	public function __construct($directoryToSaveSitemap)
 	{
-		$this->setDirPath($dirPath);
+		$this->setDirectoryToSaveSitemap($directoryToSaveSitemap);
 	}
 
 	/**
 	 * Set directory path, where files be saved
 	 *
-	 * @param string $dirPath
+	 * @param string $directoryToSaveSitemap
 	 *
 	 * @throws NotExistsException
 	 * @throws NotWritableException
 	 */
-	public function setDirPath($dirPath)
+	public function setDirectoryToSaveSitemap($directoryToSaveSitemap)
 	{
-		if (!$this->checkDirExists($dirPath)) {
-			throw new NotExistsException($dirPath, 'Target directory is not exists');
+		if (!$this->checkDirExists($directoryToSaveSitemap)) {
+			throw new NotExistsException($directoryToSaveSitemap, 'Target directory is not exists');
 		}
 
-		if (!$this->checkDirWritable($dirPath)) {
-			throw new NotWritableException($dirPath, 'Target directory exists, but not writable');
+		if (!$this->checkDirWritable($directoryToSaveSitemap)) {
+			throw new NotWritableException($directoryToSaveSitemap, 'Target directory exists, but not writable');
 		}
 
-		$this->dirPath = $dirPath;
+		$this->directoryToSaveSitemap = $directoryToSaveSitemap;
 	}
 
 	/**
@@ -51,7 +51,7 @@ abstract class AbstractWriter implements WriterInterface
 	 */
 	final public function write($fileName, $content)
 	{
-		$filePath = rtrim($this->dirPath, DIRECTORY_SEPARATOR);
+		$filePath = rtrim($this->directoryToSaveSitemap, DIRECTORY_SEPARATOR);
 		$filePath .= DIRECTORY_SEPARATOR.ltrim($fileName, DIRECTORY_SEPARATOR);
 
 		if (!$this->checkFileWritable($filePath)) {

@@ -8,8 +8,18 @@ use SitemapGenerator\Renderer\SitemapRendererInterface;
 use SitemapGenerator\Writer\SimpleWriter;
 use SitemapGenerator\Writer\WriterInterface;
 
-abstract class AbstractFactory implements FactoryInterface
+abstract class AbstractGeneratorFactory implements GeneratorFactoryInterface
 {
+    /**
+     * @var WriterInterface
+     */
+    private $writer;
+
+    public function __construct(WriterInterface $writer = null)
+    {
+        $this->writer = $writer;
+    }
+
     /**
      * Create sitemap writer
      *
@@ -19,7 +29,10 @@ abstract class AbstractFactory implements FactoryInterface
      */
     protected function createWriter($dirPath)
     {
-        return new SimpleWriter($dirPath);
+        $writer = $this->writer ?: new SimpleWriter($dirPath);
+        $writer->setDirectoryToSaveSitemap($dirPath);
+
+        return $writer;
     }
 
     /**

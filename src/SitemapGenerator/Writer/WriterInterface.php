@@ -6,9 +6,9 @@ interface WriterInterface
 	/**
 	 * Set directory path, where files be saved
 	 *
-	 * @param string $dirPath
+	 * @param string $directoryToSaveSitemap
 	 */
-	public function setDirPath($dirPath);
+	public function setDirectoryToSaveSitemap($directoryToSaveSitemap);
 
 	/**
 	 * Write sitemap content into file. Return path to target file.

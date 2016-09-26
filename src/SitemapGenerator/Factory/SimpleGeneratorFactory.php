@@ -1,17 +1,20 @@
 <?php
 namespace SitemapGenerator\Factory;
 
-use SitemapGenerator\Generator\GeneratorInterface;
+use SitemapGenerator\Generator\SimpleGenerator;
 
-class SimpleGeneratorFactory implements FactoryInterface
+class SimpleGeneratorFactory extends AbstractGeneratorFactory
 {
     /**
      * @param string $directoryToSaveSitemap
      *
-     * @return GeneratorInterface
+     * @return SimpleGenerator
      */
     public function createGenerator($directoryToSaveSitemap)
     {
-        // TODO: Implement createGenerator() method.
+        return new SimpleGenerator(
+            $this->createWriter($directoryToSaveSitemap),
+            $this->createSitemapRenderer()
+        );
     }
 }
