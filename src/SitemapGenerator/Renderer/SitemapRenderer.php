@@ -43,7 +43,7 @@ class SitemapRenderer implements SitemapRendererInterface
 		}
 
 		if ($priority = $item->getPriority()) {
-			$xml .= sprintf('<priority>%f</priority>', $priority);
+			$xml .= sprintf('<priority>%.1f</priority>', $priority);
 		}
 
 		return $xml .= '</url>';
