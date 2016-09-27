@@ -2,7 +2,6 @@
 namespace SitemapGenerator\Tests\Writer;
 
 use SitemapGenerator\Exception\FileWriteException;
-use SitemapGenerator\Exception\NotExistsException;
 use SitemapGenerator\Exception\NotWritableException;
 use SitemapGenerator\Writer\AbstractWriter;
 
@@ -25,13 +24,6 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
     {
         chmod(TEMP_DIR, 0755);
         chmod(TEMP_DIR.'/empty.xml', 0765);
-    }
-
-    public function testSetDirPathNonExistsDirectory()
-    {
-        $this->setExpectedException(NotExistsException::class);
-
-        $this->writer->setDirectoryToSaveSitemap('./abcdef');
     }
 
     public function testSetDirPathNotWritableDirectory()

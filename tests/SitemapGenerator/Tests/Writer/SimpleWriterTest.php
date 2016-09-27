@@ -21,6 +21,8 @@ class SimpleWriterTest extends \PHPUnit_Framework_TestCase
         @unlink(TEMP_DIR.'/file1.xml');
         chmod(TEMP_DIR.'/empty.xml', 0765);
         file_put_contents(TEMP_DIR.'/empty.xml', '');
+
+        is_dir(TEMP_DIR.'/testdir') && @rmdir(TEMP_DIR.'/testdir');
     }
 
     public function testWriteNotExistsFile()
@@ -50,5 +52,11 @@ class SimpleWriterTest extends \PHPUnit_Framework_TestCase
 
         chmod(TEMP_DIR.'/empty.xml', 0555);
         $this->simpleWriter->write('/empty.xml', $content);
+    }
+
+    public function testSetDirPathNonExistsDirectory()
+    {
+        $this->simpleWriter->setDirectoryToSaveSitemap(TEMP_DIR.'/testdir');
+        $this->assertFileExists(TEMP_DIR.'/testdir');
     }
 }

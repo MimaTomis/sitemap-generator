@@ -24,13 +24,12 @@ abstract class AbstractWriter implements WriterInterface
 	 *
 	 * @param string $directoryToSaveSitemap
 	 *
-	 * @throws NotExistsException
 	 * @throws NotWritableException
 	 */
 	public function setDirectoryToSaveSitemap($directoryToSaveSitemap)
 	{
 		if (!$this->checkDirExists($directoryToSaveSitemap)) {
-			throw new NotExistsException($directoryToSaveSitemap, 'Target directory is not exists');
+			$this->createDirectory($directoryToSaveSitemap);
 		}
 
 		if (!$this->checkDirWritable($directoryToSaveSitemap)) {
@@ -78,6 +77,15 @@ abstract class AbstractWriter implements WriterInterface
 	 * @return boolean
 	 */
 	abstract protected function writeContent($filePath, $content);
+
+	/**
+	 * Create directory to save sitemap
+	 *
+	 * @param string $directoryToSaveSitemap
+	 *
+	 * @return boolean
+	 */
+	abstract protected function createDirectory($directoryToSaveSitemap);
 
 	/**
 	 * Check if directory exists

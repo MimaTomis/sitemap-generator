@@ -15,4 +15,16 @@ class SimpleWriter extends AbstractWriter
 	{
 		return @file_put_contents($filePath, $content);
 	}
+
+	/**
+	 * Create directory to save sitemap
+	 *
+	 * @param string $directoryToSaveSitemap
+	 *
+	 * @return boolean
+	 */
+	protected function createDirectory($directoryToSaveSitemap)
+	{
+		return @mkdir($directoryToSaveSitemap, 0765, true);
+	}
 }
