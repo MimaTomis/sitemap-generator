@@ -12,9 +12,11 @@ abstract class AbstractWriter implements WriterInterface
 	 */
 	protected $directoryToSaveSitemap;
 
-	public function __construct($directoryToSaveSitemap)
+	public function __construct($directoryToSaveSitemap = null)
 	{
-		$this->setDirectoryToSaveSitemap($directoryToSaveSitemap);
+		if (!is_null($directoryToSaveSitemap)) {
+			$this->setDirectoryToSaveSitemap($directoryToSaveSitemap);
+		}
 	}
 
 	/**
