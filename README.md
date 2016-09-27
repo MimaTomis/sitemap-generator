@@ -1,5 +1,7 @@
 # Sitemap generator
 
+[![Build Status](https://travis-ci.org/MimaTomis/sitemap-generator.svg)](https://travis-ci.org/MimaTomis/sitemap-generator)
+
 Library for generate sitemap.xml. Easy to use and very extensible. It allows you to create custom data sources.
 
 * [Installation](#installation)
